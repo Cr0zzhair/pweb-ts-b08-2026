@@ -1,0 +1,24 @@
+{
+  "name": "pweb-ts-p01-2026",
+  "version": "1.0.0",
+  "description": "Aplikasi Sistem Antrian Rumah Sakit Native TypeScript - Praktikum Pemrograman Web 2026",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "start": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "typescript",
+    "native",
+    "hospital-queue",
+    "antrian-rumah-sakit"
+  ],
+  "author": "Kelompok Praktikum PemWeb",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
