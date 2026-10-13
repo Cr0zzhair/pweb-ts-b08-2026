@@ -127,16 +127,17 @@ document.addEventListener("DOMContentLoaded", () => {
       row.className = "admin-service-row";
 
       const statusBadge = service.isActive
-        ? `<span class="badge" style="background:#dcfce7; color:#166534;">Aktif</span>`
-        : `<span class="badge" style="background:#f1f5f9; color:#94a3b8;">Nonaktif</span>`;
+        ? `<span class="badge" style="background:var(--status-success-subtle); color:#6ee7b7; border:1px solid rgba(16,185,129,0.35);">Aktif</span>`
+        : `<span class="badge" style="background:rgba(255,255,255,0.06); color:var(--text-faint); border:1px solid rgba(255,255,255,0.12);">Nonaktif</span>`;
 
       row.innerHTML = `
         <div class="service-meta">
           <h4>
-            ${service.name} (${service.code})
+            <span>${service.name}</span>
+            <span style="font-family: var(--font-heading); color: var(--accent-cyan); font-size: 1.15rem; margin-left: 0.35rem;">(${service.code})</span>
             ${statusBadge}
           </h4>
-          <p>${waitingCount} menunggu</p>
+          <p>${waitingCount} tiket menunggu</p>
         </div>
         <div style="display: flex; gap: 0.4rem; align-items: center;">
           <button class="btn btn-secondary btn-sm toggle-btn" data-id="${service.id}">
@@ -206,8 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
       groupEl.className = "admin-ticket-group";
 
       const headerHtml = `
-        <div style="font-weight: 700; font-size: 0.85rem; color: #475569; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">
-          ${service.name}
+        <div style="font-family: var(--font-body); font-weight: 700; font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.65rem; letter-spacing: 0.3em;">
+          LAYANAN • ${service.name}
         </div>
       `;
 

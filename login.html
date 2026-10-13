@@ -4,15 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Masuk - Sistem Antrian Rumah Sakit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script type="module" src="dist/login.js" defer></script>
 </head>
-<body>
+<body class="login-page-body">
+  <!-- Video Background Arcane (Loop) -->
+  <video class="login-bg-video" autoplay muted loop playsinline>
+    <source src="video/jinx-arcane-netflix-live-wallpaper.mp4" type="video/mp4">
+  </video>
+  <div class="login-video-overlay"></div>
+
   <main class="login-wrapper">
     <div class="login-card">
       <div class="login-header">
-        <h1>Masuk</h1>
-        <p>Halaman ini untuk mengakses Dashboard Admin dan Panel Operator. Layar Kiosk tidak memerlukan login.</p>
+        <div class="card-eyebrow">PORTAL OTENTIKASI MEDIS</div>
+        <h1>MASUK <span class="brush-accent">SISTEM</span></h1>
+        <p>Silakan login untuk mengakses semua fitur sistem antrian rumah sakit.</p>
       </div>
 
       <div id="errorAlert" class="alert alert-danger" style="display: none;"></div>
@@ -48,28 +58,25 @@
       </form>
 
       <div class="login-helper">
-        <p style="text-align: center; margin-bottom: 0.5rem;">
+        <div class="arcane-divider">
+          <span class="arcane-divider-label">AKUN PENGUJIAN</span>
+        </div>
+        <p style="text-align: center; margin-bottom: 0.65rem; font-size: 0.8rem; color: var(--text-muted);">
           Gunakan akun uji dari <strong>dummyjson.com/users</strong>:
         </p>
         <div class="login-helper-pills">
           <button type="button" class="helper-pill" data-test-user="emilys" data-test-pass="emilyspass">
             <span><strong>emilys</strong> (Admin)</span>
-            <span style="color: var(--primary);">Gunakan &rarr;</span>
+            <span style="color: var(--accent-cyan); font-weight: 600;">Gunakan &rarr;</span>
           </button>
           <button type="button" class="helper-pill" data-test-user="oliviaw" data-test-pass="oliviawpass">
             <span><strong>oliviaw</strong> (Moderator)</span>
-            <span style="color: var(--primary);">Gunakan &rarr;</span>
+            <span style="color: var(--accent-cyan); font-weight: 600;">Gunakan &rarr;</span>
           </button>
           <button type="button" class="helper-pill" data-test-user="averyp" data-test-pass="averyppass">
             <span><strong>averyp</strong> (User Biasa)</span>
-            <span style="color: var(--primary);">Gunakan &rarr;</span>
+            <span style="color: var(--accent-cyan); font-weight: 600;">Gunakan &rarr;</span>
           </button>
-        </div>
-
-        <div style="margin-top: 1.25rem; text-align: center; display: flex; justify-content: center; gap: 1rem; font-size: 0.8rem;">
-          <a href="layar.html" style="color: var(--primary); text-decoration: none;">📺 Layar Antrian</a>
-          <span style="color: var(--border-color);">|</span>
-          <a href="ambil-antrian.html" style="color: var(--primary); text-decoration: none;">🎫 Ambil Nomor</a>
         </div>
       </div>
     </div>

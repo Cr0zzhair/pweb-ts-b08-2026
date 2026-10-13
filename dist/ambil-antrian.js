@@ -3,33 +3,44 @@ import { AudioService } from "./services/audio.js";
 import { AuthService } from "./services/auth.js";
 document.addEventListener("DOMContentLoaded", () => {
     StorageService.init();
-    // Cek sesi login untuk navigasi kembali ke dashboard admin/operator
-    const session = AuthService.getCurrentSession();
+    // Auth Guard: Semua user harus login untuk mengambil antrian (revisi requirement)
+    const session = AuthService.requireAuth();
+    if (!session)
+        return;
     const navAdminLink = document.getElementById("navAdminLink");
     const navOperatorLink = document.getElementById("navOperatorLink");
     const authNavArea = document.getElementById("authNavArea");
-    if (session) {
-        if (navOperatorLink)
-            navOperatorLink.style.display = "inline-block";
+    if (navOperatorLink) {
+        // Hanya admin/moderator yang bisa akses operator
         if (session.role === "admin" || session.role === "moderator") {
-            if (navAdminLink)
-                navAdminLink.style.display = "inline-block";
+            navOperatorLink.style.display = "inline-block";
         }
-        if (authNavArea) {
-            const isPrivileged = session.role === "admin" || session.role === "moderator";
-            const targetUrl = isPrivileged ? "index.html" : "operator.html";
-            const targetLabel = isPrivileged ? "Dashboard Admin" : "Panel Operator";
-            authNavArea.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <div class="user-badge">
-            <span>${session.firstName || session.username}</span>
-            <span class="role-pill role-${session.role}">${session.role.toUpperCase()}</span>
-          </div>
-          <a href="${targetUrl}" class="btn btn-primary btn-sm" style="text-decoration: none;">
-            &larr; Ke ${targetLabel}
-          </a>
+    }
+    if (session.role === "admin" || session.role === "moderator") {
+        if (navAdminLink)
+            navAdminLink.style.display = "inline-block";
+    }
+    if (authNavArea) {
+        const isPrivileged = session.role === "admin" || session.role === "moderator";
+        const targetUrl = isPrivileged ? "index.html" : "layar.html";
+        const targetLabel = isPrivileged ? "Dashboard Admin" : "Layar Antrian";
+        authNavArea.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="user-badge">
+          <span>${session.firstName || session.username}</span>
+          <span class="role-pill role-${session.role}">${session.role.toUpperCase()}</span>
         </div>
-      `;
+        <a href="${targetUrl}" class="btn btn-primary btn-sm" style="text-decoration: none;">
+          &larr; Ke ${targetLabel}
+        </a>
+        <button id="logoutBtnAmbil" class="btn btn-secondary btn-sm">Keluar</button>
+      </div>
+    `;
+        const logoutBtnAmbil = document.getElementById("logoutBtnAmbil");
+        if (logoutBtnAmbil) {
+            logoutBtnAmbil.addEventListener("click", () => {
+                AuthService.logout();
+            });
         }
     }
     const kioskCardsContainer = document.getElementById("kioskCardsContainer");
@@ -137,8 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (services.length === 0) {
             kioskCardsContainer.innerHTML = `
         <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
-          <h2 style="color: var(--text-muted);">Tidak ada layanan yang tersedia saat ini</h2>
-          <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.5rem;">
+          <div class="card-eyebrow">STATUS SISTEM</div>
+          <h2 style="color: var(--text-muted); font-size: 1.75rem;">Tidak ada layanan yang tersedia saat ini</h2>
+          <p style="color: var(--text-faint); font-size: 0.9rem; margin-top: 0.5rem;">
             Silakan hubungi bagian informasi rumah sakit.
           </p>
         </div>
@@ -149,9 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = document.createElement("div");
             card.className = "kiosk-card";
             card.innerHTML = `
-        <div class="kiosk-card-header">
-          <span>${service.name}</span>
-          <span style="color: var(--text-light); font-size: 0.85rem;">${service.code}</span>
+        <div>
+          <div class="kiosk-card-eyebrow">POLIKLINIK</div>
+          <div class="kiosk-card-header">
+            <span>${service.name}</span>
+            <span>${service.code}</span>
+          </div>
         </div>
 
         <div>

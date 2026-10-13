@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "index.html";
                 }
                 else {
-                    window.location.href = "operator.html";
+                    window.location.href = "ambil-antrian.html";
                 }
             }
             catch (err) {

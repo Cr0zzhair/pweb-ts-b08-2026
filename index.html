@@ -4,60 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin - Sistem Antrian Rumah Sakit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script type="module" src="dist/admin.js" defer></script>
 </head>
-<body>
-  <!-- Navigation Bar -->
-  <header class="navbar">
-    <div class="nav-brand">
-      <div class="brand-icon">+</div>
+<body class="app-layout">
+  <!-- Sidebar Kiri Konsisten -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">✚</div>
       <div>
-        <div class="brand-title">Dashboard Admin</div>
-        <div class="brand-subtitle">Reset setiap hari agar penomoran antrian mulai dari awal.</div>
+        <div class="brand-title">MEDIKA ARCANE</div>
+        <div class="brand-subtitle">ANTRIAN RUMAH SAKIT</div>
       </div>
     </div>
 
-    <div class="nav-actions">
-      <div class="nav-links">
-        <a href="index.html" class="nav-link active">Admin</a>
-        <a href="operator.html" class="nav-link">Operator</a>
-        <a href="layar.html" class="nav-link">Layar Monitor</a>
-        <a href="ambil-antrian.html" class="nav-link">Ambil Nomor</a>
-      </div>
+    <div class="arcane-divider" style="margin: 1.25rem 0;">
+      <span class="arcane-divider-label">NAVIGASI</span>
+    </div>
 
-      <div class="user-badge">
+    <nav class="nav-links sidebar-nav">
+      <a href="index.html" class="nav-link active">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard Admin</span>
+      </a>
+      <a href="operator.html" class="nav-link">
+        <span class="nav-icon">⚕</span>
+        <span>Panel Operator</span>
+      </a>
+      <a href="layar.html" class="nav-link">
+        <span class="nav-icon">🖥️</span>
+        <span>Layar Monitor</span>
+      </a>
+      <a href="ambil-antrian.html" class="nav-link">
+        <span class="nav-icon">🎫</span>
+        <span>Ambil Nomor</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button id="resetQueueBtn" class="btn btn-danger btn-sm btn-block" title="Kosongkan seluruh antrian hari ini">
+        ⚠️ Reset Antrian
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-badge sidebar-user">
         <span id="navUser">Admin</span>
         <span id="navRole" class="role-pill role-admin">ADMIN</span>
       </div>
 
-      <button id="resetQueueBtn" class="btn btn-danger btn-sm" title="Kosongkan seluruh antrian hari ini">
-        Reset Antrian
-      </button>
-
-      <button id="logoutBtn" class="btn btn-secondary btn-sm">
+      <button id="logoutBtn" class="btn btn-secondary btn-sm btn-block">
         Keluar
       </button>
     </div>
-  </header>
+  </aside>
 
-  <!-- Main Container -->
-  <main class="container">
+  <!-- Konten Utama Halaman -->
+  <main class="main-content">
     <div id="toastContainer"></div>
+
+    <div class="page-header" style="margin-bottom: 1.5rem;">
+      <div>
+        <div class="eyebrow-label">SISTEM KONTROL PUSAT</div>
+        <h1 class="page-title">DASHBOARD <span class="brush-accent">ADMIN</span></h1>
+        <p class="page-subtitle">Reset setiap hari agar penomoran antrian mulai dari awal.</p>
+      </div>
+    </div>
 
     <div class="grid-2">
       <!-- Kolom Kiri: Manajemen Jenis Antrian -->
       <section class="card">
         <div class="card-header">
-          <h2 class="card-title">Jenis antrian</h2>
+          <div class="card-eyebrow">KONFIGURASI LAYANAN</div>
+          <h2 class="card-title">JENIS ANTRIAN</h2>
         </div>
 
         <div id="serviceError" class="alert alert-danger" style="display: none;"></div>
 
         <!-- Form Tambah Jenis Antrian -->
-        <form id="addServiceForm" style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 1.5rem;">
-          <div style="width: 80px;">
-            <label class="form-label" for="serviceCode" style="font-size: 0.775rem;">Kode</label>
+        <form id="addServiceForm" style="display: flex; gap: 0.65rem; align-items: flex-end; margin-bottom: 1.5rem;">
+          <div style="width: 85px;">
+            <label class="form-label" for="serviceCode">Kode</label>
             <input 
               type="text" 
               id="serviceCode" 
@@ -65,11 +95,11 @@
               placeholder="C" 
               maxlength="1" 
               required
-              style="text-transform: uppercase; font-weight: 700; text-align: center;"
+              style="text-transform: uppercase; font-family: var(--font-heading); font-size: 1.25rem; text-align: center; color: var(--accent-cyan);"
             >
           </div>
           <div style="flex: 1;">
-            <label class="form-label" for="serviceName" style="font-size: 0.775rem;">Nama</label>
+            <label class="form-label" for="serviceName">Nama Layanan</label>
             <input 
               type="text" 
               id="serviceName" 
@@ -78,10 +108,14 @@
               required
             >
           </div>
-          <button type="submit" class="btn btn-primary" style="height: 38px;">
+          <button type="submit" class="btn btn-primary" style="height: 42px;">
             Tambah
           </button>
         </form>
+
+        <div class="arcane-divider">
+          <span class="arcane-divider-label">DAFTAR POLIKLINIK TERDAFTAR</span>
+        </div>
 
         <!-- Daftar Jenis Antrian -->
         <div id="servicesList">
@@ -92,21 +126,22 @@
       <!-- Kolom Kanan: Penerbitan Tiket & Antrian Aktif -->
       <section class="card">
         <div class="card-header">
-          <h2 class="card-title">Terbitkan tiket</h2>
+          <div class="card-eyebrow">OPERASIONAL TIKET</div>
+          <h2 class="card-title">TERBITKAN TIKET</h2>
         </div>
 
         <div id="issueResult" class="alert alert-success" style="display: none;"></div>
 
         <!-- Form Penerbitan Tiket Manual -->
-        <form id="issueTicketForm" style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 160px;">
-            <label class="form-label" for="issueService" style="font-size: 0.775rem;">Jenis antrian</label>
+        <form id="issueTicketForm" style="display: flex; gap: 0.65rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 170px;">
+            <label class="form-label" for="issueService">Jenis Antrian</label>
             <select id="issueService" class="form-select" required>
               <option value="">Pilih jenis antrian</option>
             </select>
           </div>
-          <div style="width: 140px;">
-            <label class="form-label" for="issuePriority" style="font-size: 0.775rem;">Prioritas</label>
+          <div style="width: 150px;">
+            <label class="form-label" for="issuePriority">Prioritas</label>
             <select id="issuePriority" class="form-select" required>
               <option value="Normal">Normal</option>
               <option value="Lansia">Lansia</option>
@@ -114,10 +149,14 @@
               <option value="VIP">VIP</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary" style="height: 38px;">
+          <button type="submit" class="btn btn-primary" style="height: 42px;">
             Terbitkan
           </button>
         </form>
+
+        <div class="arcane-divider">
+          <span class="arcane-divider-label">STATUS TIKET BERJALAN</span>
+        </div>
 
         <!-- Daftar Grup Tiket per Jenis Layanan -->
         <div id="ticketGroupsContainer">

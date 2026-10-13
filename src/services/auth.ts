@@ -136,7 +136,7 @@ export class AuthService {
       if (!hasPermission) {
         // Arahkan ke halaman yang sesuai hak aksesnya
         if (session.role === "user") {
-          window.location.replace("operator.html");
+          window.location.replace("ambil-antrian.html");
         } else {
           window.location.replace("index.html");
         }
@@ -156,7 +156,7 @@ export class AuthService {
       if (session.role === "admin" || session.role === "moderator") {
         window.location.replace("index.html");
       } else {
-        window.location.replace("operator.html");
+        window.location.replace("ambil-antrian.html");
       }
     }
   }

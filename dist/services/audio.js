@@ -3,7 +3,22 @@ export class AudioService {
     static isSoundMuted = false;
     static speechQueue = [];
     static isSpeaking = false;
+    static cachedVoices = [];
     static SOUND_STORAGE_KEY = "hospital_sound_enabled";
+    static {
+        // Inisialisasi daftar suara saat browser memuat SpeechSynthesis
+        if (typeof window !== "undefined" && "speechSynthesis" in window) {
+            AudioService.loadVoices();
+            window.speechSynthesis.onvoiceschanged = () => {
+                AudioService.loadVoices();
+            };
+        }
+    }
+    static loadVoices() {
+        if ("speechSynthesis" in window) {
+            this.cachedVoices = window.speechSynthesis.getVoices();
+        }
+    }
     static isEnabled() {
         const saved = localStorage.getItem(this.SOUND_STORAGE_KEY);
         if (saved === null)
@@ -15,8 +30,37 @@ export class AudioService {
         this.isSoundMuted = !enabled;
     }
     /**
+     * Mendapatkan voice terbaik dengan dialek/bahasa Indonesia (id-ID)
+     */
+    static getIndonesianVoice() {
+        if (this.cachedVoices.length === 0 && "speechSynthesis" in window) {
+            this.cachedVoices = window.speechSynthesis.getVoices();
+        }
+        const voices = this.cachedVoices;
+        if (voices.length === 0)
+            return null;
+        // 1. Cari suara Natural / Online id-ID (Edge/Windows: Gadis, Ardi, atau Chrome: Google Bahasa Indonesia)
+        const naturalVoice = voices.find((v) => (v.lang.toLowerCase() === "id-id" || v.lang.toLowerCase().startsWith("id")) &&
+            (v.name.toLowerCase().includes("natural") ||
+                v.name.toLowerCase().includes("online") ||
+                v.name.toLowerCase().includes("google") ||
+                v.name.toLowerCase().includes("gadis") ||
+                v.name.toLowerCase().includes("ardi")));
+        if (naturalVoice)
+            return naturalVoice;
+        // 2. Cari suara bahasa Indonesia standar (id-ID atau id)
+        const idVoice = voices.find((v) => v.lang.toLowerCase() === "id-id" || v.lang.toLowerCase().startsWith("id"));
+        if (idVoice)
+            return idVoice;
+        // 3. Cari berdasarkan nama suara mengandung "Indonesia"
+        const nameMatch = voices.find((v) => v.name.toLowerCase().includes("indonesia"));
+        if (nameMatch)
+            return nameMatch;
+        return null;
+    }
+    /**
      * Menghasilkan bunyi Chime lonceng antrian dua nada (Ding-Dong)
-     * Menggunakan Web Audio API murni (tanpa file mp3 eksternal)
+     * Menggunakan Web Audio API murni (tanpa file eksternal)
      */
     static async playChime() {
         if (!this.isEnabled())
@@ -62,20 +106,51 @@ export class AudioService {
         }
     }
     /**
-     * Mengumumkan nomor tiket dan layanan menggunakan Web Speech API
-     * Contoh: "Nomor antrian A, kosong, kosong, satu. Silakan menuju ke loket UMUM 1"
+     * Mengumumkan nomor tiket dan layanan menggunakan Web Speech API dengan dialek Indonesia
+     * Contoh: "Nomor antrean... A... nol... nol... satu... Silakan menuju ke loket Umum 1"
      */
     static announceQueue(ticketNumber, serviceName) {
         if (!this.isEnabled())
             return;
         if (!("speechSynthesis" in window))
             return;
-        // Pisahkan format kode dan digit angka: misal "A-001" -> "A" dan "0", "0", "1"
+        // Pisahkan kode dan nomor: misal "A-001" -> "A" dan "001"
         const parts = ticketNumber.split("-");
-        const code = parts[0] ?? "";
-        const num = parts[1] ?? "";
+        const code = (parts[0] ?? "").toUpperCase().trim();
+        const num = (parts[1] ?? "").trim();
+        // Pelafalan abjad dalam dialek Bahasa Indonesia agar tidak terdengar aksen Inggris
+        const letterPronunciation = {
+            A: "A",
+            B: "Bé",
+            C: "Cé",
+            D: "Dé",
+            E: "E",
+            F: "Ef",
+            G: "Gé",
+            H: "Ha",
+            I: "I",
+            J: "Jé",
+            K: "Ka",
+            L: "El",
+            M: "Em",
+            N: "En",
+            O: "O",
+            P: "Pé",
+            Q: "Ki",
+            R: "Er",
+            S: "Es",
+            T: "Té",
+            U: "U",
+            V: "Fé",
+            W: "Wé",
+            X: "Eks",
+            Y: "Yé",
+            Z: "Zet"
+        };
+        const phoneticCode = letterPronunciation[code] || code;
+        // Angka dalam dialek Bahasa Indonesia yang jelas
         const digitWords = {
-            "0": "kosong",
+            "0": "nol",
             "1": "satu",
             "2": "dua",
             "3": "tiga",
@@ -89,8 +164,15 @@ export class AudioService {
         const spokenDigits = num
             .split("")
             .map((d) => digitWords[d] || d)
-            .join(", ");
-        const text = `Nomor antrian, ${code}, ${spokenDigits}. Silakan menuju ke ${serviceName}`;
+            .join(". ");
+        // Rapikan nama layanan ke dialek pengumuman loket Indonesia
+        let cleanService = serviceName.trim();
+        if (!cleanService.toLowerCase().startsWith("loket") &&
+            !cleanService.toLowerCase().startsWith("poli")) {
+            cleanService = `loket ${cleanService}`;
+        }
+        // Teks pengumuman berintonasi alami Bahasa Indonesia
+        const text = `Nomor antrean... ${phoneticCode}... ${spokenDigits}... Silakan menuju ke ${cleanService}.`;
         this.speechQueue.push(text);
         this.processSpeechQueue();
     }
@@ -101,25 +183,31 @@ export class AudioService {
         if (!nextText)
             return;
         this.isSpeaking = true;
-        // Bunyikan chime terlebih dahulu sebelum berbicara
+        // Pastikan speech synthesis tidak dalam keadaan ter-pause
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+        // Bunyikan chime terlebih dahulu sebelum suara AI berbicara
         this.playChime().then(() => {
             setTimeout(() => {
                 try {
                     const utterance = new SpeechSynthesisUtterance(nextText);
+                    // Set bahasa dan dialek Indonesia
                     utterance.lang = "id-ID";
-                    utterance.rate = 0.95;
-                    utterance.pitch = 1.0;
-                    // Cari suara bahasa Indonesia jika tersedia di browser
-                    const voices = window.speechSynthesis.getVoices();
-                    const idVoice = voices.find((v) => v.lang.startsWith("id"));
-                    if (idVoice) {
-                        utterance.voice = idVoice;
+                    utterance.rate = 0.88; // Kecepatan bicara yang tenang dan jelas
+                    utterance.pitch = 1.05; // Nada intonasi yang ramah
+                    // Cari dan gunakan voice dialek Indonesia terbaik yang tersedia di browser/OS
+                    const indonesianVoice = this.getIndonesianVoice();
+                    if (indonesianVoice) {
+                        utterance.voice = indonesianVoice;
+                        utterance.lang = indonesianVoice.lang;
                     }
                     utterance.onend = () => {
                         this.isSpeaking = false;
-                        setTimeout(() => this.processSpeechQueue(), 300);
+                        setTimeout(() => this.processSpeechQueue(), 350);
                     };
-                    utterance.onerror = () => {
+                    utterance.onerror = (e) => {
+                        console.warn("Speech synthesis error:", e);
                         this.isSpeaking = false;
                         setTimeout(() => this.processSpeechQueue(), 200);
                     };

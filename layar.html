@@ -4,43 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Layar Antrian - Sistem Antrian Rumah Sakit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script type="module" src="dist/layar.js" defer></script>
 </head>
-<body class="monitor-wrapper">
-  <!-- Monitor Header -->
-  <header class="monitor-header">
-    <div class="monitor-title">
-      <h1>Nomor sedang dipanggil</h1>
-      <div id="lastUpdated" class="monitor-time">Memuat pembaruan...</div>
+<body class="app-layout">
+  <!-- Sidebar Kiri Konsisten -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🖥️</div>
+      <div>
+        <div class="brand-title">MEDIKA ARCANE</div>
+        <div class="brand-subtitle">MONITOR RUANG TUNGGU</div>
+      </div>
     </div>
 
-    <div class="nav-actions">
-      <div class="nav-links">
-        <a href="index.html" id="navAdminLink" class="nav-link" style="display: none;">Admin</a>
-        <a href="operator.html" id="navOperatorLink" class="nav-link" style="display: none;">Operator</a>
-        <a href="layar.html" class="nav-link active">Layar Antrian</a>
-        <a href="ambil-antrian.html" class="nav-link">Ambil Nomor</a>
-      </div>
+    <div class="arcane-divider" style="margin: 1.25rem 0;">
+      <span class="arcane-divider-label">NAVIGASI</span>
+    </div>
 
-      <button id="soundToggleBtn" class="btn btn-secondary btn-sm" title="Toggle audio lonceng dan panggilan suara">
+    <nav class="nav-links sidebar-nav">
+      <a href="index.html" id="navAdminLink" class="nav-link" style="display: none;">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard Admin</span>
+      </a>
+      <a href="operator.html" id="navOperatorLink" class="nav-link" style="display: none;">
+        <span class="nav-icon">⚕</span>
+        <span>Panel Operator</span>
+      </a>
+      <a href="layar.html" class="nav-link active">
+        <span class="nav-icon">🖥️</span>
+        <span>Layar Monitor</span>
+      </a>
+      <a href="ambil-antrian.html" class="nav-link">
+        <span class="nav-icon">🎫</span>
+        <span>Ambil Nomor</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button id="soundToggleBtn" class="btn btn-secondary btn-sm btn-block" title="Toggle audio lonceng dan panggilan suara">
         🔊 Suara: Aktif
       </button>
 
-      <button id="fullscreenToggleBtn" class="btn btn-secondary btn-sm">
-        Layar Penuh
+      <button id="fullscreenToggleBtn" class="btn btn-secondary btn-sm btn-block">
+        ⛶ Layar Penuh
       </button>
 
-      <div id="authNavArea">
-        <a href="login.html" class="btn btn-secondary btn-sm" style="text-decoration: none;">
-          Login Staf
-        </a>
+      <div style="margin-top: 0.5rem; padding: 0.65rem 0.85rem; background: rgba(18, 10, 31, 0.7); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); text-align: center;">
+        <div class="eyebrow-label" style="font-size: 10px; margin-bottom: 0.2rem;">WAKTU SISTEM</div>
+        <div id="lastUpdated" class="monitor-time" style="font-size: 12px;">Memuat...</div>
       </div>
     </div>
-  </header>
 
-  <!-- Monitor Grid Container -->
-  <main class="container" style="max-width: 1400px; padding: 2rem 1.5rem;">
+    <div class="sidebar-footer">
+      <div id="authNavArea">
+        <!-- Diisi secara dinamis oleh dist/layar.js setelah login -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- Konten Utama Halaman -->
+  <main class="main-content">
+    <div class="page-header" style="margin-bottom: 1.5rem;">
+      <div>
+        <div class="eyebrow-label">RUANG TUNGGU PASIEN</div>
+        <h1 class="page-title">NOMOR SEDANG <span class="brush-accent">DIPANGGIL</span></h1>
+        <p class="page-subtitle">Pembaruan otomatis realtime antrian poliklinik rumah sakit.</p>
+      </div>
+    </div>
+
+    <div class="arcane-divider" style="margin-top: 0; margin-bottom: 2rem;">
+      <span class="arcane-divider-label">PANTAUAN LOKET AKTIF</span>
+    </div>
+
     <div id="monitorCardsContainer" class="grid-3">
       <!-- Diisi secara dinamis oleh dist/layar.js -->
     </div>

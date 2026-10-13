@@ -1,343 +1,636 @@
 /* ==========================================================================
-   SISTEM ANTRIAN RUMAH SAKIT - DESIGN SYSTEM (VANILLA CSS)
-   Murni Native CSS tanpa Bootstrap / Tailwind / Framework eksternal.
+   SISTEM ANTRIAN RUMAH SAKIT — ARCANE VISUAL DESIGN SYSTEM
+   Murni Native HTML + CSS + TypeScript (Tanpa Framework / Library Eksternal)
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS & CSS VARIABLES
+   -------------------------------------------------------------------------- */
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  
-  /* Palette Warna Medis & Dashboard Modern */
-  --bg-primary: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-subtle: #f1f5f9;
-  
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
-  
-  --border-color: #e2e8f0;
-  --border-focus: #3b82f6;
-  
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-subtle: #eff6ff;
-  --primary-text: #1d4ed8;
+  /* Palet Warna Latar Arcane */
+  --bg-deep: #0b0714;
+  --bg-surface: #120921;
+  --bg-card-top: rgba(26, 15, 43, 0.88);
+  --bg-card-bottom: rgba(15, 8, 28, 0.96);
+  --bg-card-glow: rgba(58, 26, 92, 0.4);
+  --bg-input: rgba(14, 8, 24, 0.85);
+  --bg-glass: rgba(22, 12, 36, 0.7);
 
-  --accent-teal: #0d9488;
-  --accent-teal-subtle: #f0fdfa;
+  /* Aksen Warna */
+  --accent-magenta: #d13cff;
+  --accent-magenta-hover: #e066ff;
+  --accent-magenta-glow: rgba(209, 60, 255, 0.45);
+  --accent-magenta-subtle: rgba(209, 60, 255, 0.15);
 
-  --success: #16a34a;
-  --success-subtle: #f0fdf4;
-  --warning: #f59e0b;
-  --warning-subtle: #fffbeb;
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --danger-subtle: #fef2f2;
+  --accent-cyan: #3fd0ff;
+  --accent-cyan-glow: rgba(63, 208, 255, 0.45);
+  --accent-cyan-subtle: rgba(63, 208, 255, 0.12);
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  /* Tipografi Warna */
+  --text-main: #f1ecf7;
+  --text-muted: #a99bbf;
+  --text-faint: #6c5d85;
 
+  /* Garis & Border */
+  --border-line: rgba(255, 255, 255, 0.25);
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-magenta: rgba(209, 60, 255, 0.35);
+  --border-cyan: rgba(63, 208, 255, 0.4);
+
+  /* Status Fungsional */
+  --status-success: #10b981;
+  --status-success-subtle: rgba(16, 185, 129, 0.15);
+  --status-warning: #f59e0b;
+  --status-warning-subtle: rgba(245, 158, 11, 0.15);
+  --status-danger: #ef4444;
+  --status-danger-subtle: rgba(239, 68, 68, 0.18);
+
+  /* Font Families */
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-brush: 'Permanent Marker', cursive;
+
+  /* Sudut & Radius */
+  --radius-xs: 3px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-full: 9999px;
 
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transisi */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset Dasar */
+/* --------------------------------------------------------------------------
+   2. RESET & BASE ELEMENTS
+   -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--bg-deep);
+}
+
 body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  font-family: var(--font-body);
+  font-weight: 400;
   color: var(--text-main);
-  line-height: 1.5;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(58, 26, 92, 0.55), transparent 75%),
+    radial-gradient(ellipse 55% 40% at 100% 40%, rgba(209, 60, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 85%, rgba(63, 208, 255, 0.05), transparent 60%),
+    linear-gradient(180deg, #0b0714 0%, #140a24 50%, #0b0714 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================================================================
-   NAVIGATION BAR
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   3. TYPOGRAPHY SYSTEM
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.card-title,
+.brand-title,
+.monitor-title h1,
+.display-box-number,
+.monitor-card-number,
+.ticket-number-display {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 400; /* Bebas Neue sudah naturally bold */
+  color: var(--text-main);
+}
 
+/* Pola label kecil khas Arcane (letter-spacing lebar, 11-12px, kapital) */
+.eyebrow-label,
+.card-eyebrow,
+.monitor-eyebrow,
+.kiosk-card-eyebrow,
+.display-box-label,
+.kiosk-priority-label,
+.arcane-divider-label,
+.brand-subtitle,
+.page-subtitle-badge,
+.role-pill,
+.badge {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+}
+
+/* Aksen Brush kuas tunggal (Permanent Marker) untuk SATU judul per halaman */
+.brush-accent {
+  font-family: var(--font-brush);
+  color: var(--accent-magenta);
+  display: inline-block;
+  transform: rotate(-2.5deg);
+  text-shadow: 0 0 14px var(--accent-magenta-glow);
+  font-size: 1.05em;
+  letter-spacing: 0.02em;
+  margin: 0 0.15em;
+  vertical-align: middle;
+}
+
+/* Garis Pemisah Tipis Arcane dengan label kecil */
+.arcane-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.arcane-divider::before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-line);
+}
+
+.arcane-divider::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--border-line);
+}
+
+/* --------------------------------------------------------------------------
+   4. SIDEBAR & APP LAYOUT (Navigasi Kiri Konsisten)
+   -------------------------------------------------------------------------- */
+body.app-layout,
+.app-layout {
+  display: flex !important;
+  flex-direction: row !important;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  align-items: stretch;
+  overflow-x: hidden;
+}
+
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  flex-shrink: 0;
+  background: rgba(12, 7, 22, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.25rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 50;
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-nav .nav-link[style*="inline-block"] {
+  display: flex !important;
+}
+
+.sidebar-nav .nav-link:hover {
+  color: var(--text-main);
+  background: rgba(209, 60, 255, 0.1);
+  border-color: rgba(209, 60, 255, 0.25);
+  transform: translateX(3px);
+}
+
+.sidebar-nav .nav-link.active {
+  color: #ffffff;
+  background: rgba(209, 60, 255, 0.2);
+  border: 1px solid var(--border-magenta);
+  box-shadow: 0 0 14px var(--accent-magenta-glow);
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+  width: 22px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebar-user {
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem;
+}
+
+/* Penyesuaian authNavArea di dalam sidebar footer */
+.sidebar-footer #authNavArea > div {
+  display: flex;
+  flex-direction: column !important;
+  gap: 0.65rem !important;
+  width: 100%;
+}
+
+.sidebar-footer #authNavArea .user-badge {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.sidebar-footer #authNavArea .btn {
+  width: 100%;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: calc(100% - 280px);
+  padding: 2.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  body.app-layout,
+  .app-layout {
+    flex-direction: column !important;
+  }
+  .sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+  }
+  .main-content {
+    width: 100% !important;
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+/* Kompatibilitas Navbar lama jika ada elemen */
 .navbar {
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.85rem 1.75rem;
+  background: rgba(11, 7, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.85rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   text-decoration: none;
   color: var(--text-main);
 }
 
 .brand-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #2563eb, #0d9488);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(209, 60, 255, 0.35), rgba(63, 208, 255, 0.25));
+  border: 1px solid var(--border-magenta);
+  box-shadow: 0 0 14px var(--accent-magenta-glow);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #ffffff;
+  font-size: 1.25rem;
   font-weight: 700;
-  font-size: 1.15rem;
-  box-shadow: var(--shadow-sm);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .brand-title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
   color: var(--text-main);
+  line-height: 1;
 }
 
 .brand-subtitle {
-  font-size: 0.75rem;
+  font-size: 10.5px;
+  letter-spacing: 0.25em;
   color: var(--text-muted);
+  margin-top: 0.25rem;
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
-.user-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--bg-surface-subtle);
-  border: 1px solid var(--border-color);
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-full);
-  font-size: 0.825rem;
-  font-weight: 500;
-}
-
-.role-pill {
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-full);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.role-admin { background-color: #fef3c7; color: #92400e; }
-.role-moderator { background-color: #e0e7ff; color: #3730a3; }
-.role-user { background-color: #dcfce7; color: #166534; }
-
-/* Link navigasi tab */
 .nav-links {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
-  font-size: 0.875rem;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
   font-weight: 500;
+  letter-spacing: 0.05em;
   color: var(--text-muted);
-  padding: 0.45rem 0.85rem;
-  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid transparent;
   transition: all var(--transition-fast);
 }
 
 .nav-link:hover {
   color: var(--text-main);
-  background-color: var(--bg-surface-subtle);
+  background: rgba(209, 60, 255, 0.08);
+  border-color: rgba(209, 60, 255, 0.2);
 }
 
 .nav-link.active {
-  color: var(--primary);
-  background-color: var(--primary-subtle);
+  color: #ffffff;
+  background: rgba(209, 60, 255, 0.18);
+  border: 1px solid var(--border-magenta);
+  box-shadow: 0 0 12px var(--accent-magenta-glow);
   font-weight: 600;
 }
 
-/* ==========================================================================
-   BUTTONS
-   ========================================================================== */
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(26, 14, 43, 0.7);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
 
+/* Role Pills */
+.role-pill {
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-xs);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+}
+
+.role-admin {
+  background: rgba(209, 60, 255, 0.2);
+  color: #f5a8ff;
+  border: 1px solid var(--border-magenta);
+  box-shadow: 0 0 8px var(--accent-magenta-glow);
+}
+
+.role-moderator {
+  background: rgba(63, 208, 255, 0.18);
+  color: #7ce0ff;
+  border: 1px solid var(--border-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan-glow);
+}
+
+.role-user {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ded6ec;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   5. BUTTONS
+   -------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  font-family: inherit;
-  font-size: 0.875rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-md);
+  letter-spacing: 0.05em;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
   text-decoration: none;
+  background: transparent;
+  color: var(--text-main);
+  position: relative;
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 2px solid var(--accent-magenta);
   outline-offset: 2px;
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.35;
   cursor: not-allowed;
   pointer-events: none;
+  box-shadow: none !important;
 }
 
+/* Primary Button (Magenta Neon Glow) */
 .btn-primary {
-  background-color: #e27d2c;
+  background: linear-gradient(135deg, #d13cff 0%, #9910d6 100%);
   color: #ffffff;
-  border-color: #cb6e24;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 16px var(--accent-magenta-glow);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #cb6e24;
+  background: linear-gradient(135deg, #e066ff 0%, #b01be8 100%);
+  box-shadow: 0 0 24px rgba(209, 60, 255, 0.7);
+  transform: translateY(-1px);
 }
 
-.btn-blue {
-  background-color: var(--primary);
-  color: #ffffff;
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
-.btn-blue:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-}
-
+/* Secondary Button (Dark Translucent Surface) */
 .btn-secondary {
-  background-color: var(--bg-surface);
+  background: rgba(30, 17, 48, 0.7);
   color: var(--text-main);
-  border-color: var(--border-color);
+  border: 1px solid var(--border-line);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--bg-surface-subtle);
-  border-color: #cbd5e1;
+  background: rgba(58, 26, 92, 0.8);
+  border-color: var(--border-magenta);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--accent-magenta-glow);
+  transform: translateY(-1px);
 }
 
+/* Danger Button (Subtle Crimson Glass) */
 .btn-danger {
-  background-color: #fff;
-  color: var(--danger);
-  border-color: #fecaca;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: var(--danger-subtle);
-  border-color: var(--danger);
-}
-
-.btn-danger-solid {
-  background-color: var(--danger);
-  color: #fff;
-}
-
-.btn-danger-solid:hover:not(:disabled) {
-  background-color: var(--danger-hover);
-}
-
-.btn-success {
-  background-color: var(--success);
-  color: #fff;
-}
-
-.btn-success:hover:not(:disabled) {
-  background-color: #15803d;
+  background: rgba(239, 68, 68, 0.25);
+  border-color: var(--status-danger);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-sm {
-  padding: 0.3rem 0.65rem;
-  font-size: 0.8rem;
-  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.785rem;
+  letter-spacing: 0.04em;
 }
 
 .btn-lg {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: var(--radius-md);
+  padding: 0.85rem 1.75rem;
+  font-size: 1.05rem;
 }
 
 .btn-block {
   width: 100%;
 }
 
-/* ==========================================================================
-   FORMS & INPUTS
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   6. FORMS & INPUTS
+   -------------------------------------------------------------------------- */
 .form-group {
-  margin-bottom: 1.15rem;
+  margin-bottom: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .form-label {
-  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 11px;
   font-weight: 600;
-  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
 }
 
 .form-input,
 .form-select {
   width: 100%;
-  padding: 0.55rem 0.85rem;
-  font-family: inherit;
-  font-size: 0.9rem;
+  padding: 0.65rem 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.925rem;
   color: var(--text-main);
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-line);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 }
 
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--accent-magenta);
+  background-color: rgba(20, 11, 35, 0.95);
+  box-shadow: 0 0 0 2px var(--accent-magenta-subtle), 0 0 14px var(--accent-magenta-glow);
 }
 
 .form-input::placeholder {
-  color: var(--text-light);
+  color: var(--text-faint);
+  font-size: 0.875rem;
 }
 
-/* ==========================================================================
-   LAYOUT CONTAINERS
-   ========================================================================== */
+.form-select {
+  cursor: pointer;
+}
 
+.form-select option {
+  background-color: #140a24;
+  color: var(--text-main);
+}
+
+/* --------------------------------------------------------------------------
+   7. LAYOUT & CONTAINERS
+   -------------------------------------------------------------------------- */
 .container {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem;
+  padding: 2rem 1.5rem;
   flex: 1;
 }
 
 .page-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -346,29 +639,30 @@ body {
 }
 
 .page-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  line-height: 1.1;
   color: var(--text-main);
+  letter-spacing: 0.05em;
 }
 
 .page-subtitle {
   font-size: 0.875rem;
   color: var(--text-muted);
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
+  font-weight: 400;
 }
 
-/* Grid Layouts */
+/* Grids */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .grid-4 {
@@ -379,210 +673,300 @@ body {
 
 @media (max-width: 1024px) {
   .grid-2, .grid-3, .grid-4 {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
   }
 }
 
-/* ==========================================================================
-   CARDS & PANELS
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   8. CARDS & PANELS (Pola Arcane: Sudut halus, Gradien Gelap-ke-Ungu)
+   -------------------------------------------------------------------------- */
 .card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  padding: 1.25rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  background: linear-gradient(180deg, var(--bg-card-top) 0%, var(--bg-card-bottom) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.55);
+  padding: 1.5rem;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Garis aksen halus di bawah kartu */
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(209, 60, 255, 0.3), transparent);
+  pointer-events: none;
 }
 
 .card-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.85rem;
-  border-bottom: 1px solid var(--border-color);
+  flex-direction: column;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.15rem;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.card-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
 }
 
 .card-title {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1.5rem;
   color: var(--text-main);
+  letter-spacing: 0.05em;
 }
 
-/* ==========================================================================
-   STATUS BADGES & PILLS
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   9. STATUS BADGES & PILLS
+   -------------------------------------------------------------------------- */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.2rem 0.55rem;
-  border-radius: var(--radius-full);
-  font-size: 0.725rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.25em;
+  border: 1px solid transparent;
 }
 
 .badge-called {
-  background-color: #fed7aa;
-  color: #9a3412;
+  background: rgba(209, 60, 255, 0.2);
+  color: #f5a8ff;
+  border-color: var(--border-magenta);
+  box-shadow: 0 0 8px var(--accent-magenta-glow);
 }
 
 .badge-waiting {
-  background-color: #e2e8f0;
-  color: #475569;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .badge-done {
-  background-color: #dcfce7;
-  color: #166534;
+  background: var(--status-success-subtle);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.35);
 }
 
 .badge-skipped {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background: var(--status-danger-subtle);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.35);
 }
 
+/* Priority Badges */
 .badge-priority-vip {
-  background-color: #fdf2f8;
-  color: #be185d;
-  border: 1px solid #fbcfe8;
+  background: rgba(209, 60, 255, 0.2);
+  color: #f7b4ff;
+  border: 1px solid var(--border-magenta);
+  box-shadow: 0 0 10px var(--accent-magenta-glow);
 }
 
 .badge-priority-disabilitas {
-  background-color: #ede9fe;
-  color: #6d28d9;
-  border: 1px solid #ddd6fe;
+  background: rgba(147, 51, 234, 0.2);
+  color: #d8b4fe;
+  border: 1px solid rgba(147, 51, 234, 0.4);
 }
 
 .badge-priority-lansia {
-  background-color: #fef3c7;
-  color: #b45309;
-  border: 1px solid #fde68a;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde047;
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .badge-priority-normal {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  color: #c9bed9;
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-/* ==========================================================================
-   HALAMAN LOGIN (login.html)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   10. HALAMAN LOGIN (login.html)
+   -------------------------------------------------------------------------- */
+.login-page-body {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
 
+/* Background Video Arcane */
+.login-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  filter: brightness(0.7) contrast(1.1);
+}
+
+/* Overlay gradien halus agar kartu login di kiri sangat jelas dan kontras */
+.login-video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    90deg, 
+    rgba(11, 7, 20, 0.94) 0%, 
+    rgba(11, 7, 20, 0.8) 35%, 
+    rgba(11, 7, 20, 0.35) 60%, 
+    rgba(11, 7, 20, 0.15) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Form login dibuat ke 1/5 sisi kiri */
 .login-wrapper {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background: radial-gradient(circle at top, #f1f5f9 0%, #e2e8f0 100%);
+  justify-content: flex-start;
+  padding: 2.5rem clamp(2rem, 6vw, 6rem);
+  position: relative;
+  z-index: 2;
 }
 
 .login-card {
   width: 100%;
-  max-width: 420px;
-  background-color: var(--bg-surface);
+  max-width: 440px;
+  background: linear-gradient(180deg, rgba(26, 14, 43, 0.92) 0%, rgba(13, 7, 24, 0.97) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-color);
-  padding: 2.25rem 2rem;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 25px 65px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(209, 60, 255, 0.3);
+  border: 1px solid rgba(209, 60, 255, 0.35);
+  padding: 2.75rem 2.25rem;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .login-wrapper {
+    justify-content: center;
+    padding: 1.5rem 1rem;
+  }
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-magenta), transparent);
+  box-shadow: 0 0 10px var(--accent-magenta-glow);
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
 }
 
 .login-header h1 {
-  font-size: 1.65rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: 0.06em;
   color: var(--text-main);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .login-header p {
   font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .login-btn {
-  background-color: #e27d2c;
-  color: #fff;
+  background: linear-gradient(135deg, #d13cff 0%, #9910d6 100%);
+  color: #ffffff;
   width: 100%;
-  padding: 0.75rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color var(--transition-fast);
-  margin-top: 0.5rem;
+  transition: all var(--transition-fast);
+  margin-top: 0.75rem;
+  box-shadow: 0 0 18px var(--accent-magenta-glow);
 }
 
 .login-btn:hover:not(:disabled) {
-  background-color: #cb6e24;
+  background: linear-gradient(135deg, #e066ff 0%, #b01be8 100%);
+  box-shadow: 0 0 28px rgba(209, 60, 255, 0.75);
+  transform: translateY(-1px);
 }
 
 .login-btn:disabled {
-  background-color: #f6ad55;
+  opacity: 0.45;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .login-helper {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-color);
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  margin-top: 1.75rem;
 }
 
 .login-helper-pills {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-top: 0.6rem;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
 }
 
 .helper-pill {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--bg-surface-subtle);
-  border: 1px solid var(--border-color);
-  padding: 0.35rem 0.65rem;
+  background: rgba(22, 13, 36, 0.75);
+  border: 1px solid var(--border-line);
+  padding: 0.55rem 0.85rem;
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-main);
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .helper-pill:hover {
-  background-color: #e2e8f0;
+  background: rgba(58, 26, 92, 0.6);
+  border-color: var(--border-magenta);
+  box-shadow: 0 0 12px var(--accent-magenta-glow);
+  transform: translateX(3px);
 }
 
-/* ==========================================================================
-   HALAMAN DASHBOARD ADMIN (index.html)
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   11. HALAMAN DASHBOARD ADMIN (index.html)
+   -------------------------------------------------------------------------- */
 .admin-service-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-line);
 }
 
 .admin-service-row:last-child {
@@ -590,112 +974,132 @@ body {
 }
 
 .service-meta h4 {
-  font-size: 0.925rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  color: var(--text-main);
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .service-meta p {
-  font-size: 0.775rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
+  margin-top: 0.15rem;
 }
 
 .admin-ticket-group {
   margin-bottom: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.85rem;
-  background-color: var(--bg-surface);
+  padding: 1rem 1.15rem;
+  background: rgba(18, 10, 31, 0.75);
+}
+
+.admin-ticket-group:last-child {
+  margin-bottom: 0;
 }
 
 .ticket-item-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px dashed var(--border-color);
-  font-size: 0.85rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--border-line);
+  font-size: 0.875rem;
 }
 
 .ticket-item-row:last-child {
   border-bottom: none;
 }
 
-/* ==========================================================================
-   HALAMAN OPERATOR (operator.html)
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   12. HALAMAN OPERATOR (operator.html)
+   -------------------------------------------------------------------------- */
 .operator-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(180deg, var(--bg-card-top) 0%, var(--bg-card-bottom) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  position: relative;
 }
 
 .operator-card-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border-line);
+  padding-bottom: 0.75rem;
 }
 
 .operator-service-name {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  letter-spacing: 0.05em;
   color: var(--text-main);
 }
 
 .operator-waiting-count {
-  font-size: 0.8rem;
+  font-size: 11px;
+  letter-spacing: 0.25em;
   color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .operator-display-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  background-color: var(--bg-surface-subtle);
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
+  gap: 1rem;
+  background: rgba(13, 7, 23, 0.85);
+  padding: 1.15rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
 }
 
 .display-box-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .display-box-number {
-  font-size: 1.65rem;
-  font-weight: 800;
-  color: #e27d2c;
-  line-height: 1.1;
+  font-size: 2.75rem;
+  line-height: 1;
+  color: var(--accent-magenta);
+  text-shadow: 0 0 18px var(--accent-magenta-glow);
 }
 
+/* Aksen cyan hemat untuk info nomor berikutnya */
 .display-box-next {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-main);
-  line-height: 1.1;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  line-height: 1.05;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 14px var(--accent-cyan-glow);
 }
 
 .display-box-priority {
-  font-size: 0.725rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
+  font-weight: 500;
 }
 
 .operator-card-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.65rem;
   margin-top: auto;
 }
 
@@ -703,76 +1107,127 @@ body {
   flex: 1;
 }
 
-/* ==========================================================================
-   HALAMAN LAYAR ANTRIAN (layar.html)
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   13. HALAMAN MONITOR / LAYAR ANTRIAN (layar.html)
+   -------------------------------------------------------------------------- */
 .monitor-wrapper {
-  background-color: #f1f5f9;
+  background-color: var(--bg-deep);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .monitor-header {
-  background-color: #ffffff;
-  border-bottom: 2px solid var(--border-color);
-  padding: 1rem 2rem;
+  background: rgba(11, 7, 20, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
 }
 
 .monitor-title h1 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  letter-spacing: 0.06em;
   color: var(--text-main);
+  line-height: 1.1;
 }
 
+/* Aksen Cyan hemat pada waktu monitor */
 .monitor-time {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
 }
 
+/* Kartu Monitor Antrian (Efek Arcane: Sedikit Miring Bergantian Kiri-Kanan) */
 .monitor-card {
-  background-color: #ffffff;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-  padding: 1.5rem;
+  background: linear-gradient(180deg, var(--bg-card-top) 0%, var(--bg-card-bottom) 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 12px 36px rgba(0, 0, 0, 0.55);
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  min-height: 240px;
+  min-height: 270px;
   position: relative;
-  transition: transform var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  transform-origin: center center;
 }
 
+/* Aturan Wajib: Kemiringan 1-3 derajat bergantian HANYA di layar.html dan ambil-antrian.html */
+.monitor-card:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+
+.monitor-card:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+
+.monitor-card:nth-child(3n) {
+  transform: rotate(-1deg);
+}
+
+.monitor-card:hover {
+  transform: rotate(0deg) scale(1.02);
+  border-color: var(--border-magenta);
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.7),
+    0 0 24px var(--accent-magenta-glow);
+  z-index: 5;
+}
+
+/* Animasi Calling / Dipanggil */
 .monitor-card.is-calling {
-  animation: pulse-ring 2s infinite;
-  border-color: #e27d2c;
+  border-color: var(--accent-magenta);
+  animation: arcane-calling-glow 2s infinite ease-in-out;
 }
 
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(226, 125, 44, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(226, 125, 44, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(226, 125, 44, 0); }
+@keyframes arcane-calling-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 16px var(--accent-magenta-glow),
+      inset 0 0 14px rgba(209, 60, 255, 0.15);
+    border-color: rgba(209, 60, 255, 0.7);
+  }
+  50% {
+    box-shadow: 
+      0 0 32px rgba(209, 60, 255, 0.75),
+      inset 0 0 22px rgba(209, 60, 255, 0.3);
+    border-color: #d13cff;
+  }
 }
 
 .monitor-card-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  font-size: 1.15rem;
-  font-weight: 700;
+  border-bottom: 1px solid var(--border-line);
+  padding-bottom: 0.65rem;
+}
+
+.monitor-card-header span:first-child {
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  letter-spacing: 0.05em;
   color: var(--text-main);
 }
 
+/* Aksen cyan hemat untuk kode layanan */
 .monitor-card-code {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px var(--accent-cyan-glow);
+  letter-spacing: 0.05em;
 }
 
 .monitor-card-center {
@@ -784,109 +1239,161 @@ body {
 .monitor-card-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.75rem;
+  gap: 0.45rem;
+  font-size: 11px;
   font-weight: 700;
-  color: #ea580c;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.35rem;
+  letter-spacing: 0.3em;
+  color: #ffffff;
+  background: rgba(209, 60, 255, 0.25);
+  border: 1px solid var(--border-magenta);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 0 12px var(--accent-magenta-glow);
+  margin-bottom: 0.65rem;
 }
 
 .monitor-card-badge::before {
   content: "";
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background-color: #ea580c;
-  animation: blink 1.2s infinite ease-in-out;
+  background-color: var(--accent-magenta);
+  box-shadow: 0 0 8px #ffffff;
+  animation: arcane-blink 1.2s infinite ease-in-out;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+@keyframes arcane-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(0.8); }
 }
 
 .monitor-card-number {
-  font-size: 3.25rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  color: var(--text-main);
-  line-height: 1;
+  font-size: 4.5rem;
+  line-height: 0.95;
+  color: #ffffff;
+  text-shadow: 
+    0 0 20px var(--accent-magenta-glow),
+    0 0 40px rgba(209, 60, 255, 0.4);
 }
 
 .monitor-empty-state {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.925rem;
+  font-weight: 500;
 }
 
 .monitor-empty-sub {
-  font-size: 0.75rem;
-  color: var(--text-light);
+  font-size: 0.775rem;
+  color: var(--text-faint);
   margin-top: 0.35rem;
 }
 
 .monitor-card-footer {
   text-align: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-line);
   padding-top: 0.75rem;
-  font-size: 0.8rem;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
   color: var(--text-muted);
+  font-weight: 600;
 }
 
-/* ==========================================================================
-   HALAMAN AMBIL NOMOR ANTRIAN (ambil-antrian.html)
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   14. HALAMAN AMBIL NOMOR ANTRIAN (ambil-antrian.html)
+   -------------------------------------------------------------------------- */
 .kiosk-card {
-  background-color: #ffffff;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-  padding: 1.25rem;
+  background: linear-gradient(180deg, var(--bg-card-top) 0%, var(--bg-card-bottom) 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 12px 36px rgba(0, 0, 0, 0.5);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 1.15rem;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  transform-origin: center center;
+}
+
+/* Kemiringan 1-3 derajat bergantian HANYA di pilihan layanan ambil-antrian.html */
+.kiosk-card:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+
+.kiosk-card:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+
+.kiosk-card:nth-child(3n) {
+  transform: rotate(-1deg);
+}
+
+.kiosk-card:hover {
+  transform: rotate(0deg) scale(1.02);
+  border-color: var(--border-magenta);
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.7),
+    0 0 24px var(--accent-magenta-glow);
+  z-index: 5;
 }
 
 .kiosk-card-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  font-weight: 700;
-  font-size: 1.05rem;
+  border-bottom: 1px solid var(--border-line);
+  padding-bottom: 0.65rem;
+}
+
+.kiosk-card-header span:first-child {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+/* Aksen cyan hemat */
+.kiosk-card-header span:last-child {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px var(--accent-cyan-glow);
 }
 
 .kiosk-priority-label {
-  font-size: 0.75rem;
+  font-size: 10.5px;
+  letter-spacing: 0.25em;
   color: var(--text-muted);
-  margin-top: 0.2rem;
-  margin-bottom: 0.4rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
 }
 
 .kiosk-priority-buttons {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .kiosk-priority-buttons .btn {
   flex: 1;
-  font-size: 0.775rem;
-  padding: 0.35rem 0.25rem;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.25rem;
+  letter-spacing: 0.04em;
 }
 
-/* ==========================================================================
-   MODAL TIKET CETAK (PHYSICAL TICKET MODAL)
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   15. MODAL TIKET CETAK (THERMAL TICKET SIMULATION)
+   -------------------------------------------------------------------------- */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(4px);
+  background: rgba(11, 7, 20, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -903,56 +1410,61 @@ body {
 
 .ticket-print-modal {
   width: 90%;
-  max-width: 360px;
-  background-color: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  padding: 2rem 1.75rem;
+  max-width: 380px;
+  background: linear-gradient(180deg, #1b0f2e 0%, #0f081c 100%);
+  border-radius: var(--radius-md);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 0 35px var(--accent-magenta-glow);
+  padding: 2.25rem 2rem;
   text-align: center;
   position: relative;
-  border: 2px dashed #cbd5e1;
+  border: 1px dashed var(--border-magenta);
 }
 
 .ticket-hospital-name {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
   color: var(--text-main);
 }
 
 .ticket-hospital-sub {
-  font-size: 0.75rem;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   color: var(--text-muted);
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px dashed var(--border-color);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--border-line);
 }
 
 .ticket-number-display {
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  color: #e27d2c;
-  line-height: 1;
+  font-size: 4.5rem;
+  line-height: 0.95;
+  color: var(--accent-magenta);
+  text-shadow: 0 0 24px var(--accent-magenta-glow);
   margin: 0.75rem 0;
 }
 
 .ticket-service-badge {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
   color: var(--text-main);
 }
 
 .ticket-meta-info {
-  margin: 1.25rem 0;
-  padding: 0.75rem;
-  background-color: var(--bg-surface-subtle);
-  border-radius: var(--radius-md);
-  font-size: 0.8rem;
+  margin: 1.5rem 0;
+  padding: 0.95rem;
+  background: rgba(13, 7, 23, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
   color: var(--text-muted);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.45rem;
   text-align: left;
 }
 
@@ -961,53 +1473,73 @@ body {
   justify-content: space-between;
 }
 
+.ticket-meta-info strong {
+  color: var(--text-main);
+}
+
 .ticket-modal-actions {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
 }
 
 .ticket-modal-actions .btn {
   flex: 1;
 }
 
-/* ==========================================================================
-   ALERTS & NOTIFIKASI
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   16. ALERTS & NOTIFIKASI
+   -------------------------------------------------------------------------- */
 .alert {
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .alert-danger {
-  background-color: var(--danger-subtle);
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  background: var(--status-danger-subtle);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .alert-success {
-  background-color: var(--success-subtle);
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  background: var(--status-success-subtle);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .alert-info {
-  background-color: var(--primary-subtle);
-  color: var(--primary-text);
-  border: 1px solid #bfdbfe;
+  background: var(--accent-magenta-subtle);
+  color: #f0a5ff;
+  border: 1px solid var(--border-magenta);
 }
 
-/* ==========================================================================
-   PRINT MEDIA STYLES
-   ========================================================================== */
+/* Toast Container */
+#toastContainer {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
 
+#toastContainer .alert {
+  pointer-events: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  min-width: 280px;
+}
+
+/* --------------------------------------------------------------------------
+   17. PRINT MEDIA STYLES (Cetak Tiket Fisik Bersih Tanpa Tinta Hitam Penuh)
+   -------------------------------------------------------------------------- */
 @media print {
   body * {
     visibility: hidden;
@@ -1021,9 +1553,26 @@ body {
     top: 0;
     width: 100%;
     max-width: 100%;
-    box-shadow: none;
-    border: none;
-    padding: 0;
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 1rem !important;
+  }
+  .ticket-hospital-name,
+  .ticket-service-badge,
+  .ticket-meta-info strong {
+    color: #000000 !important;
+  }
+  .ticket-hospital-sub,
+  .ticket-meta-info {
+    color: #444444 !important;
+    background: transparent !important;
+    border-color: #000 !important;
+  }
+  .ticket-number-display {
+    color: #000000 !important;
+    text-shadow: none !important;
   }
   .ticket-modal-actions {
     display: none !important;

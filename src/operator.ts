@@ -5,8 +5,8 @@ import { AudioService } from "./services/audio.js";
 document.addEventListener("DOMContentLoaded", () => {
   StorageService.init();
 
-  // Auth Guard: Pengguna harus login (User, Admin, atau Moderator)
-  const session = AuthService.requireAuth();
+  // Auth Guard & Role Guard: Khusus Admin dan Moderator
+  const session = AuthService.requireAuth(["admin", "moderator"]);
   if (!session) return;
 
   // Render User Info & Role
@@ -67,9 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (services.length === 0) {
       cardsContainer.innerHTML = `
-        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-          <h3 style="color: var(--text-muted);">Tidak ada layanan antrian aktif saat ini.</h3>
-          <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3.5rem;">
+          <div class="card-eyebrow">STATUS SISTEM</div>
+          <h3 style="color: var(--text-muted); font-size: 1.65rem;">Tidak ada layanan antrian aktif saat ini</h3>
+          <p style="font-size: 0.85rem; color: var(--text-faint); margin-top: 0.5rem;">
             Silakan aktifkan atau buat jenis antrian baru di Dashboard Admin.
           </p>
         </div>
@@ -94,8 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.innerHTML = `
         <div class="operator-card-header">
-          <div class="operator-service-name">${service.name}</div>
-          <div class="operator-waiting-count">${waitingCount} menunggu</div>
+          <div>
+            <div class="card-eyebrow">POLIKLINIK</div>
+            <div class="operator-service-name">${service.name}</div>
+          </div>
+          <div class="operator-waiting-count">${waitingCount} MENUNGGU</div>
         </div>
 
         <div class="operator-display-grid">
