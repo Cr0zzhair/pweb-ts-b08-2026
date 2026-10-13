@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layar Antrian - Sistem Antrian Rumah Sakit</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="dist/layar.js" defer></script>
+</head>
+<body class="monitor-wrapper">
+  <!-- Monitor Header -->
+  <header class="monitor-header">
+    <div class="monitor-title">
+      <h1>Nomor sedang dipanggil</h1>
+      <div id="lastUpdated" class="monitor-time">Memuat pembaruan...</div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="nav-links">
+        <a href="index.html" id="navAdminLink" class="nav-link" style="display: none;">Admin</a>
+        <a href="operator.html" id="navOperatorLink" class="nav-link" style="display: none;">Operator</a>
+        <a href="layar.html" class="nav-link active">Layar Antrian</a>
+        <a href="ambil-antrian.html" class="nav-link">Ambil Nomor</a>
+      </div>
+
+      <button id="soundToggleBtn" class="btn btn-secondary btn-sm" title="Toggle audio lonceng dan panggilan suara">
+        🔊 Suara: Aktif
+      </button>
+
+      <button id="fullscreenToggleBtn" class="btn btn-secondary btn-sm">
+        Layar Penuh
+      </button>
+
+      <div id="authNavArea">
+        <a href="login.html" class="btn btn-secondary btn-sm" style="text-decoration: none;">
+          Login Staf
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Monitor Grid Container -->
+  <main class="container" style="max-width: 1400px; padding: 2rem 1.5rem;">
+    <div id="monitorCardsContainer" class="grid-3">
+      <!-- Diisi secara dinamis oleh dist/layar.js -->
+    </div>
+  </main>
+</body>
+</html>

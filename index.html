@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Sistem Antrian Rumah Sakit</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="dist/admin.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">+</div>
+      <div>
+        <div class="brand-title">Dashboard Admin</div>
+        <div class="brand-subtitle">Reset setiap hari agar penomoran antrian mulai dari awal.</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Admin</a>
+        <a href="operator.html" class="nav-link">Operator</a>
+        <a href="layar.html" class="nav-link">Layar Monitor</a>
+        <a href="ambil-antrian.html" class="nav-link">Ambil Nomor</a>
+      </div>
+
+      <div class="user-badge">
+        <span id="navUser">Admin</span>
+        <span id="navRole" class="role-pill role-admin">ADMIN</span>
+      </div>
+
+      <button id="resetQueueBtn" class="btn btn-danger btn-sm" title="Kosongkan seluruh antrian hari ini">
+        Reset Antrian
+      </button>
+
+      <button id="logoutBtn" class="btn btn-secondary btn-sm">
+        Keluar
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div id="toastContainer"></div>
+
+    <div class="grid-2">
+      <!-- Kolom Kiri: Manajemen Jenis Antrian -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Jenis antrian</h2>
+        </div>
+
+        <div id="serviceError" class="alert alert-danger" style="display: none;"></div>
+
+        <!-- Form Tambah Jenis Antrian -->
+        <form id="addServiceForm" style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 1.5rem;">
+          <div style="width: 80px;">
+            <label class="form-label" for="serviceCode" style="font-size: 0.775rem;">Kode</label>
+            <input 
+              type="text" 
+              id="serviceCode" 
+              class="form-input" 
+              placeholder="C" 
+              maxlength="1" 
+              required
+              style="text-transform: uppercase; font-weight: 700; text-align: center;"
+            >
+          </div>
+          <div style="flex: 1;">
+            <label class="form-label" for="serviceName" style="font-size: 0.775rem;">Nama</label>
+            <input 
+              type="text" 
+              id="serviceName" 
+              class="form-input" 
+              placeholder="Contoh: Farmasi" 
+              required
+            >
+          </div>
+          <button type="submit" class="btn btn-primary" style="height: 38px;">
+            Tambah
+          </button>
+        </form>
+
+        <!-- Daftar Jenis Antrian -->
+        <div id="servicesList">
+          <!-- Diisi secara dinamis oleh dist/admin.js -->
+        </div>
+      </section>
+
+      <!-- Kolom Kanan: Penerbitan Tiket & Antrian Aktif -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Terbitkan tiket</h2>
+        </div>
+
+        <div id="issueResult" class="alert alert-success" style="display: none;"></div>
+
+        <!-- Form Penerbitan Tiket Manual -->
+        <form id="issueTicketForm" style="display: flex; gap: 0.5rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 160px;">
+            <label class="form-label" for="issueService" style="font-size: 0.775rem;">Jenis antrian</label>
+            <select id="issueService" class="form-select" required>
+              <option value="">Pilih jenis antrian</option>
+            </select>
+          </div>
+          <div style="width: 140px;">
+            <label class="form-label" for="issuePriority" style="font-size: 0.775rem;">Prioritas</label>
+            <select id="issuePriority" class="form-select" required>
+              <option value="Normal">Normal</option>
+              <option value="Lansia">Lansia</option>
+              <option value="Disabilitas">Disabilitas</option>
+              <option value="VIP">VIP</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="height: 38px;">
+            Terbitkan
+          </button>
+        </form>
+
+        <!-- Daftar Grup Tiket per Jenis Layanan -->
+        <div id="ticketGroupsContainer">
+          <!-- Diisi secara dinamis oleh dist/admin.js -->
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
